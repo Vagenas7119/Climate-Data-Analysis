@@ -1,0 +1,185 @@
+###Heatmap visualization on climate data indices on ECMWF-ICON
+
+###For inquiries contact to @Vagenas G. 2024 (g.vagenas@hcmr.gr) | (georgvagenas@gmail.com)
+
+# Define working directory
+setwd("C:/Users/Vagenas/Desktop/HNMS/Heatmap/") # CHANGE [1] RESET DIRECTORY
+
+#Set locale english
+Sys.setlocale("LC_ALL","English")
+
+#Call required libraries as a list
+libs <- c(
+  "zoo","scales","ggborderline","dplyr","ggplot2","tidyverse","magrittr","easypackages","ggpubr","lubridate","hrbrthemes","dplyr"
+)
+
+#Install libraries
+installed_libs <- libs %in% rownames(
+  installed.packages()
+)
+
+if(any(installed_libs == F)){
+  install.packages(
+    libs[!installed_libs]
+  )
+}
+
+# Load multiple packages
+lapply(libs, require, character.only = TRUE)
+
+###Run Variable defined as VarTS###
+
+#Import all files from the directory
+temp = list.files(pattern="\\.txt$")
+
+#Merge all .txt files in one dataframe with 4 selected variables needed for the analysis
+VarTS = data.frame(dplyr::bind_rows(lapply(temp, read.delim)))%>%dplyr::select("varno","veri_model","valid_time","veri_forecast_time","ME","RMSE")
+
+#Run a loop as a grouping variable based on initials - for loop /if-else
+Model_group<-rep(0,nrow(VarTS))
+length(Model_group)
+
+for(i in 1:length(Model_group)){
+  if(grepl("ICON",VarTS$veri_model[i])==TRUE)
+  {Model_group[[i]]="ICON-LAM"}
+  else{Model_group[[i]]="COSMO"}
+}
+
+#Combine loop product with the initial dataset
+VarTS<-data.frame(VarTS,Model_group)
+str(VarTS)
+
+#Classify variables
+VarTS$valid_time<-as.Date(as.character(lubridate::ymd_hm(VarTS$valid_time)))
+VarTS$veri_model<-as.factor(VarTS$veri_model)
+VarTS$Model_group<-as.factor(VarTS$Model_group)
+VarTS$varno<-as.factor(VarTS$varno)
+VarTS$veri_forecast_time<-as.numeric(as.character(VarTS$veri_forecast_time))
+#Include monthly average
+Date_ID<-as.factor(format(as.Date(VarTS$valid_time), "%b %y"))
+VarTS<-data.frame(VarTS,Date_ID)
+
+#ICON
+RMSE_mon_mean<-aggregate(RMSE~Date_ID+Model_group+veri_forecast_time+varno,VarTS,mean)
+ME_mon_mean<-aggregate(ME~Date_ID+Model_group+veri_forecast_time+varno,VarTS,mean)
+
+
+# Heatmap
+
+#MODELGROUP ICON-LAM
+ME_mon_mean_ICON<-filter(ME_mon_mean,Model_group=="ICON-LAM")
+ME_mon_mean_ICON$Date_ID<-as.Date(as.yearmon(ME_mon_mean_ICON$Date_ID, "%b %y"))
+
+#heatmap
+
+#ME-ICON
+min(ME_mon_mean_ICON$ME)
+max(ME_mon_mean_ICON$ME)
+p1<-ggplot(ME_mon_mean_ICON, aes(x=Date_ID, y=veri_forecast_time))+
+  geom_raster(aes(fill = ME))+
+  facet_wrap(~varno)+
+  scale_fill_gradient2(low = "deepskyblue3",high ="red")+
+  ggtitle("Heatmap-ME | Region: ComA2 | Model: ICON-LAM",
+          subtitle = "Forecasting Period: 08/2021-09/2023 | Forecast Leading Time Step: 3h")+
+  theme_classic()+theme(plot.title = element_text(hjust = 0.5,
+                                                face="bold"),
+                      plot.subtitle = element_text(hjust = 0.5),
+                      axis.text=element_text(size=12),
+                      legend.title.align=0.5,
+                      axis.title.y = element_text(size=14, face="bold"),
+                      legend.key = element_rect(fill = "transparent"),
+                      legend.text = element_text(size=11, face="bold"),
+                      axis.text.x = element_text(size=10,angle = 90, hjust = 1))+
+  scale_y_continuous(breaks=seq(0,48,6),limits=c(0,48))+
+scale_x_date(date_labels = "%b-%y",date_breaks = "3 month",
+             limits = as.Date(c("2021-08-01", "2023-09-1")))+labs(y= "Forecast Time", x= "Time")
+p1
+
+#MODELGROUP COSMO
+ME_mon_mean_COSMO<-filter(ME_mon_mean,Model_group=="COSMO")
+ME_mon_mean_COSMO$Date_ID<-as.Date(as.yearmon(ME_mon_mean_COSMO$Date_ID, "%b %y"))
+
+#ME-COSMO
+min(ME_mon_mean_COSMO$ME)
+max(ME_mon_mean_COSMO$ME)
+p2<-ggplot(ME_mon_mean_COSMO, aes(x=Date_ID, y=veri_forecast_time))+
+  geom_raster(aes(fill = ME))+
+  facet_wrap(~varno)+
+  scale_fill_gradient2(low = "deepskyblue3",high ="red")+
+  ggtitle("Heatmap-ME | Region: ComA2 | Model: COSMO",
+          subtitle = "Forecasting Period: 08/2021-09/2023 | Forecast Leading Time Step: 3h")+
+  theme_classic()+theme(plot.title = element_text(hjust = 0.5,
+                                                  face="bold"),
+                        plot.subtitle = element_text(hjust = 0.5),
+                        axis.text=element_text(size=12),
+                        legend.title.align=0.5,
+                        axis.title.y = element_text(size=14, face="bold"),
+                        legend.key = element_rect(fill = "transparent"),
+                        legend.text = element_text(size=11, face="bold"),
+                        axis.text.x = element_text(size=10,angle = 90, hjust = 1))+
+  scale_y_continuous(breaks=seq(0,48,6),limits=c(0,48))+
+  scale_x_date(date_labels = "%b-%y",date_breaks = "3 month",
+               limits = as.Date(c("2021-08-01", "2023-09-1")))+labs(y= "Forecast Time", x= "Time")
+p2
+
+#MODELGROUP ICON-LAM
+ME_mon_mean_ICON<-filter(ME_mon_mean,Model_group=="ICON-LAM")
+ME_mon_mean_ICON$Date_ID<-as.Date(as.yearmon(ME_mon_mean_ICON$Date_ID, "%b %y"))
+
+#heatmap
+
+#MODELGROUP ICON-LAM
+RMSE_mon_mean_ICON<-filter(RMSE_mon_mean,Model_group=="ICON-LAM")
+RMSE_mon_mean_ICON$Date_ID<-as.Date(as.yearmon(RMSE_mon_mean_ICON$Date_ID, "%b %y"))
+
+#RMSE-ICON
+min(RMSE_mon_mean_ICON$RMSE)
+max(RMSE_mon_mean_ICON$RMSE)
+p3<-ggplot(RMSE_mon_mean_ICON, aes(x=Date_ID, y=veri_forecast_time))+
+  geom_raster(aes(fill = RMSE))+
+  facet_wrap(~varno)+
+  scale_fill_gradient2(low = "red1",high ="red3", na.value="grey50",midpoint=mean(RMSE_mon_mean_ICON$RMSE))+
+  ggtitle("Heatmap-RMSE | Region: ComA2 | Model: ICON-LAM",
+          subtitle = "Forecasting Period: 08/2021-09/2023 | Forecast Leading Time Step: 3h")+
+  theme_bw()+theme(plot.title = element_text(hjust = 0.5,
+                                                  face="bold"),
+                        plot.subtitle = element_text(hjust = 0.5),
+                        axis.text=element_text(size=12),
+                        legend.title.align=0.5,
+                        axis.title.y = element_text(size=14, face="bold"),
+                        legend.key = element_rect(fill = "transparent"),
+                        legend.text = element_text(size=11, face="bold"),
+                        axis.text.x = element_text(size=10,angle = 90, hjust = 1))+
+  scale_y_continuous(breaks=seq(0,48,6),limits=c(0,48))+
+  scale_x_date(date_labels = "%b-%y",date_breaks = "3 month",
+               limits = as.Date(c("2021-08-01", "2023-09-1")))+labs(y= "Forecast Time", x= "Time")
+p3
+
+#MODELGROUP COSMO
+RMSE_mon_mean_COSMO<-filter(RMSE_mon_mean,Model_group=="COSMO")
+RMSE_mon_mean_COSMO$Date_ID<-as.Date(as.yearmon(RMSE_mon_mean_COSMO$Date_ID, "%b %y"))
+
+#RMSE-COSMO
+min(RMSE_mon_mean_COSMO$RMSE)
+max(RMSE_mon_mean_COSMO$RMSE)
+p4<-ggplot(RMSE_mon_mean_COSMO, aes(x=Date_ID, y=veri_forecast_time))+
+  geom_raster(aes(fill = RMSE))+
+  facet_wrap(~varno)+
+  scale_fill_gradient2(low = "red1",high ="red3", na.value="grey50",midpoint=mean(RMSE_mon_mean_COSMO$RMSE))+
+  ggtitle("Heatmap-RMSE | Region: ComA2 | Model: COSMO",
+          subtitle = "Forecasting Period: 08/2021-09/2023 | Forecast Leading Time Step: 3h")+
+  theme_bw()+theme(plot.title = element_text(hjust = 0.5,
+                                             face="bold"),
+                   plot.subtitle = element_text(hjust = 0.5),
+                   axis.text=element_text(size=12),
+                   legend.title.align=0.5,
+                   axis.title.y = element_text(size=14, face="bold"),
+                   legend.key = element_rect(fill = "transparent"),
+                   legend.text = element_text(size=11, face="bold"),
+                   axis.text.x = element_text(size=10,angle = 90, hjust = 1))+
+  scale_y_continuous(breaks=seq(0,48,6),limits=c(0,48))+
+  scale_x_date(date_labels = "%b-%y",date_breaks = "3 month",
+               limits = as.Date(c("2021-08-01", "2023-09-1")))+labs(y= "Forecast Time", x= "Time")
+p4
+
+
