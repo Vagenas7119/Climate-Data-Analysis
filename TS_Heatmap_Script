@@ -76,23 +76,24 @@ ME_mon_mean_ICON$Date_ID<-as.Date(as.yearmon(ME_mon_mean_ICON$Date_ID, "%b %y"))
 min(ME_mon_mean_ICON$ME)
 max(ME_mon_mean_ICON$ME)
 p1<-ggplot(ME_mon_mean_ICON, aes(x=Date_ID, y=veri_forecast_time))+
-  geom_raster(aes(fill = ME))+
+  geom_tile(aes(fill = ME),lwd=1.5,linetype=1)+
   facet_wrap(~varno)+
-  scale_fill_gradient2(low = "deepskyblue3",high ="red")+
+  scale_fill_gradient2(low = "deepskyblue3",high ="red",midpoint=0)+
   ggtitle("Heatmap-ME | Region: ComA2 | Model: ICON-LAM",
-          subtitle = "Forecasting Period: 08/2021-09/2023 | Forecast Leading Time Step: 3h")+
+          subtitle = "Forecasting Period: 08/2021-09/2023")+
   theme_bw()+theme(plot.title = element_text(hjust = 0.5,
                                                 face="bold"),
                       plot.subtitle = element_text(hjust = 0.5),
                       axis.text=element_text(size=12),
                       legend.title.align=0.5,
-                      axis.title.y = element_text(size=14, face="bold"),
+                      axis.title.y = element_text(size=12, face="bold"),
                       legend.key = element_rect(fill = "transparent"),
-                      legend.text = element_text(size=11, face="bold"),
+                      legend.text = element_text(size=10, face="bold"),
+                      axis.text.y = element_text(size=10),
                       axis.text.x = element_text(size=10,angle = 90, hjust = 1))+
-  scale_y_continuous(breaks=seq(0,48,6),limits=c(0,48))+
-scale_x_date(date_labels = "%b-%y",date_breaks = "3 month",
-             limits = as.Date(c("2021-08-01", "2023-09-1")))+labs(y= "Forecast Time", x= "Time")
+  scale_y_continuous(breaks=seq(0,48,3),limits=c(0,48))+
+scale_x_date(date_labels = "%b%y",date_breaks = "3 month",
+             limits = as.Date(c("2021-08-01", "2023-09-1")))+labs(y= "Lead Time",x="")
 p1
 
 #MODELGROUP COSMO
@@ -103,23 +104,24 @@ ME_mon_mean_COSMO$Date_ID<-as.Date(as.yearmon(ME_mon_mean_COSMO$Date_ID, "%b %y"
 min(ME_mon_mean_COSMO$ME)
 max(ME_mon_mean_COSMO$ME)
 p2<-ggplot(ME_mon_mean_COSMO, aes(x=Date_ID, y=veri_forecast_time))+
-  geom_raster(aes(fill = ME))+
+  geom_tile(aes(fill = ME),lwd=1.5,linetype=1)+
   facet_wrap(~varno)+
-  scale_fill_gradient2(low = "deepskyblue3",high ="red")+
+  scale_fill_gradient2(low = "deepskyblue3",high ="red",midpoint=0)+
   ggtitle("Heatmap-ME | Region: ComA2 | Model: COSMO",
-          subtitle = "Forecasting Period: 08/2021-09/2023 | Forecast Leading Time Step: 3h")+
+          subtitle = "Forecasting Period: 08/2021-09/2023")+
   theme_bw()+theme(plot.title = element_text(hjust = 0.5,
-                                                  face="bold"),
-                        plot.subtitle = element_text(hjust = 0.5),
-                        axis.text=element_text(size=12),
-                        legend.title.align=0.5,
-                        axis.title.y = element_text(size=14, face="bold"),
-                        legend.key = element_rect(fill = "transparent"),
-                        legend.text = element_text(size=11, face="bold"),
-                        axis.text.x = element_text(size=10,angle = 90, hjust = 1))+
-  scale_y_continuous(breaks=seq(0,48,6),limits=c(0,48))+
-  scale_x_date(date_labels = "%b-%y",date_breaks = "3 month",
-               limits = as.Date(c("2021-08-01", "2023-09-1")))+labs(y= "Forecast Time", x= "Time")
+                                             face="bold"),
+                   plot.subtitle = element_text(hjust = 0.5),
+                   axis.text=element_text(size=12),
+                   legend.title.align=0.5,
+                   axis.title.y = element_text(size=12, face="bold"),
+                   legend.key = element_rect(fill = "transparent"),
+                   legend.text = element_text(size=10, face="bold"),
+                   axis.text.y = element_text(size=10),
+                   axis.text.x = element_text(size=10,angle = 90, hjust = 1))+
+  scale_y_continuous(breaks=seq(0,48,3),limits=c(0,48))+
+  scale_x_date(date_labels = "%b%y",date_breaks = "3 month",
+               limits = as.Date(c("2021-08-01", "2023-09-1")))+labs(y= "Lead Time",x="")
 p2
 
 #MODELGROUP ICON-LAM
@@ -136,23 +138,24 @@ RMSE_mon_mean_ICON$Date_ID<-as.Date(as.yearmon(RMSE_mon_mean_ICON$Date_ID, "%b %
 min(RMSE_mon_mean_ICON$RMSE)
 max(RMSE_mon_mean_ICON$RMSE)
 p3<-ggplot(RMSE_mon_mean_ICON, aes(x=Date_ID, y=veri_forecast_time))+
-  geom_raster(aes(fill = RMSE))+
+  geom_tile(aes(fill = RMSE),lwd=1.5,linetype=1)+
   facet_wrap(~varno)+
-  scale_fill_gradient2(low = "red1",high ="red3", na.value="grey50",midpoint=mean(RMSE_mon_mean_ICON$RMSE))+
-  ggtitle("Heatmap-RMSE | Region: ComA2 | Model: ICON-LAM",
-          subtitle = "Forecasting Period: 08/2021-09/2023 | Forecast Leading Time Step: 3h")+
+  scale_fill_gradient2(low = "deepskyblue3",high ="red",midpoint=min(RMSE_mon_mean_ICON$RMSE))+
+  ggtitle("Heatmap-ME | Region: ComA2 | Model: ICON-LAM",
+          subtitle = "Forecasting Period: 08/2021-09/2023")+
   theme_bw()+theme(plot.title = element_text(hjust = 0.5,
-                                                  face="bold"),
-                        plot.subtitle = element_text(hjust = 0.5),
-                        axis.text=element_text(size=12),
-                        legend.title.align=0.5,
-                        axis.title.y = element_text(size=14, face="bold"),
-                        legend.key = element_rect(fill = "transparent"),
-                        legend.text = element_text(size=11, face="bold"),
-                        axis.text.x = element_text(size=10,angle = 90, hjust = 1))+
-  scale_y_continuous(breaks=seq(0,48,6),limits=c(0,48))+
-  scale_x_date(date_labels = "%b-%y",date_breaks = "3 month",
-               limits = as.Date(c("2021-08-01", "2023-09-1")))+labs(y= "Forecast Time", x= "Time")
+                                             face="bold"),
+                   plot.subtitle = element_text(hjust = 0.5),
+                   axis.text=element_text(size=12),
+                   legend.title.align=0.5,
+                   axis.title.y = element_text(size=12, face="bold"),
+                   legend.key = element_rect(fill = "transparent"),
+                   legend.text = element_text(size=10, face="bold"),
+                   axis.text.y = element_text(size=10),
+                   axis.text.x = element_text(size=10,angle = 90, hjust = 1))+
+  scale_y_continuous(breaks=seq(0,48,3),limits=c(0,48))+
+  scale_x_date(date_labels = "%b%y",date_breaks = "3 month",
+               limits = as.Date(c("2021-08-01", "2023-09-1")))+labs(y= "Lead Time",x="")
 p3
 
 #MODELGROUP COSMO
@@ -163,23 +166,24 @@ RMSE_mon_mean_COSMO$Date_ID<-as.Date(as.yearmon(RMSE_mon_mean_COSMO$Date_ID, "%b
 min(RMSE_mon_mean_COSMO$RMSE)
 max(RMSE_mon_mean_COSMO$RMSE)
 p4<-ggplot(RMSE_mon_mean_COSMO, aes(x=Date_ID, y=veri_forecast_time))+
-  geom_raster(aes(fill = RMSE))+
+  geom_tile(aes(fill = RMSE),lwd=1.5,linetype=1)+
   facet_wrap(~varno)+
-  scale_fill_gradient2(low = "red1",high ="red3", na.value="grey50",midpoint=mean(RMSE_mon_mean_COSMO$RMSE))+
-  ggtitle("Heatmap-RMSE | Region: ComA2 | Model: COSMO",
-          subtitle = "Forecasting Period: 08/2021-09/2023 | Forecast Leading Time Step: 3h")+
+  scale_fill_gradient2(low = "deepskyblue3",high ="red",midpoint=min(RMSE_mon_mean_COSMO$RMSE))+
+  ggtitle("Heatmap-ME | Region: ComA2 | Model: COSMO",
+          subtitle = "Forecasting Period: 08/2021-09/2023")+
   theme_bw()+theme(plot.title = element_text(hjust = 0.5,
                                              face="bold"),
                    plot.subtitle = element_text(hjust = 0.5),
                    axis.text=element_text(size=12),
                    legend.title.align=0.5,
-                   axis.title.y = element_text(size=14, face="bold"),
+                   axis.title.y = element_text(size=12, face="bold"),
                    legend.key = element_rect(fill = "transparent"),
-                   legend.text = element_text(size=11, face="bold"),
+                   legend.text = element_text(size=10, face="bold"),
+                   axis.text.y = element_text(size=10),
                    axis.text.x = element_text(size=10,angle = 90, hjust = 1))+
-  scale_y_continuous(breaks=seq(0,48,6),limits=c(0,48))+
-  scale_x_date(date_labels = "%b-%y",date_breaks = "3 month",
-               limits = as.Date(c("2021-08-01", "2023-09-1")))+labs(y= "Forecast Time", x= "Time")
+  scale_y_continuous(breaks=seq(0,48,3),limits=c(0,48))+
+  scale_x_date(date_labels = "%b%y",date_breaks = "3 month",
+               limits = as.Date(c("2021-08-01", "2023-09-1")))+labs(y= "Lead Time",x="")
 p4
 
 
