@@ -5,7 +5,7 @@
 Creator: Georgios Vagenas
 Affiliation: Hellenic National Meteorological Agency (HNMS) - Hellenic Airforce | Airman (METE) 
 
-## Short Note:
+## Heatmaps ME/RMSE:
 The present script is used for the visualization of statistical indicators related to the verification of climate data series derived through model predictions (ICON-LAM; COSMO). The main output represents a linear heatmap linked to the mean error (ME) and root mean square error (RMSE) between observed and predicted thresholds in certain lead time steps.
 
 ### Keywords: 
