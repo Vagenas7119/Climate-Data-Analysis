@@ -1,18 +1,12 @@
 # Climate-Data-Analysis
 
-[The files included herein are required for the complete set of the analysis. The raw dataset (.csv) and the R.v4.3.0 source code scipt (.txt) are attached]
-
 Creator: Georgios Vagenas
-Affiliation: Hellenic National Meteorological Agency (HNMS) - Hellenic Airforce | Airman (METE) 
+Affiliation: Hellenic National Meteorological Agency (HNMS) - Hellenic Airforce | Airman (METE)
 
-## Heatmaps ME/RMSE:
+## Heatmaps ME/RMSE [1]:
 The present script is used for the visualization of statistical indicators related to the verification of climate data series derived through model predictions (ICON-LAM; COSMO). The main output represents a linear heatmap linked to the mean error (ME) and root mean square error (RMSE) between observed and predicted thresholds in certain lead time steps.
 
-### Keywords: 
-temperature, ICON, COSMO, HNMS
-
-#### Citation (APA):
- Vagenas, G. & Gofa, F. (2024). Visualization of ME & RMSE on climate data series. Hellenic National Meteorological Agency.
+[The files included herein are required for the complete set of the analysis. The raw dataset (Heatmap_Dataset.zip) and the R.v4.3.0 source code scipt (TS_Heatmap_Script.txt) are attached]
 
 ## Visualization Output
 
@@ -34,6 +28,8 @@ temperature, ICON, COSMO, HNMS
 
 ### Supplementary files
 
+[The files included herein are required for the complete set of the analysis. The raw dataset (Heatmap_Dataset.zip) and the R.v4.3.0 source code scipt (TS_Heatmap_Indv_Script.txt) are attached]
+
 #### Figure S1. Mean Error | Region: ComA2 | Model: ICON-GR | Varibles: FF (m/s) - N (oct) - T2M (K) - TD2M (K)
 
 ![Fig1_ICONGR](https://github.com/Vagenas7119/Climate-Data-Analysis/assets/51241773/06136ebd-fdb8-499e-b622-36c344034c2e)
@@ -43,6 +39,16 @@ temperature, ICON, COSMO, HNMS
 
 ![Fig2ICONGR](https://github.com/Vagenas7119/Climate-Data-Analysis/assets/51241773/7166d3b6-ece7-48e7-8efc-275fc2bbbbc0)
 
+## Time series ME/RMSE [2]:
+The present script is used for the visualization of statistical indicators related to the verification of climate data series derived through model predictions (ICON-LAM; COSMO). The main output represents factorial timeseries linked to the mean error (ME) and root mean square error (RMSE) between observed and predicted thresholds.
+
+--------------
+
+### Keywords: 
+temperature, ICON, COSMO, HNMS
+
+#### Citation (APA):
+ Vagenas, G. & Gofa, F. (2024). Visualization of ME & RMSE on climate data series. Hellenic National Meteorological Agency.
 
 
 
