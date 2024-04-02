@@ -41,7 +41,7 @@ The present script is used for the visualization of statistical indicators relat
 ## Time series ME/RMSE [2]:
 The present script is used for the visualization of statistical indicators related to the verification of climate data series derived through model predictions (ICON-LAM; COSMO). The main output represents factorial timeseries linked to the mean error (ME) and root mean square error (RMSE) between observed and predicted thresholds.
 
-[The files included herein are required for the complete set of the analysis. The raw dataset (Timeseries_TEMP12_Dataset.txt) and the R.v4.3.0 source code scipt (Timeseries_TEMP12_Script.txt) are attached]
+[The files included herein are required for the complete set of the analysis. The raw dataset (Timeseries_TEMP12_Dataset.zip) and the R.v4.3.0 source code scipt (Timeseries_TEMP12_Script.txt) are attached]
 
 #### Figure 2.1. Mean Error | Region: ComA2 | Model: ICON-LAM & COSMO | Varible: 2mT (K)
 
