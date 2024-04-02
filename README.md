@@ -43,9 +43,13 @@ The present script is used for the visualization of statistical indicators relat
 
 [The files included herein are required for the complete set of the analysis. The raw dataset (Timeseries_TEMP12_Datasset.txt) and the R.v4.3.0 source code scipt (Timeseries_TEMP12_Script.txt) are attached]
 
-#### Figure 2.1. Mean Error & Root Mean Square Error | Region: ComA2 | Model: ICON-LAM & COSMO | Varible: 2mT (K)
+#### Figure 2.1. Mean Error | Region: ComA2 | Model: ICON-LAM & COSMO | Varible: 2mT (K)
 
 ![TEMP_12h_ME](https://github.com/Vagenas7119/Climate-Data-Analysis/assets/51241773/eee4681c-53cd-4031-a143-9f7c0aff3dd0)
+
+#### Figure 2.2. Root Mean Square Error | Region: ComA2 | Model: ICON-LAM & COSMO | Varible: 2mT (K)
+
+![TEMP_12h_RMSE](https://github.com/Vagenas7119/Climate-Data-Analysis/assets/51241773/7b5c05ad-5bef-4879-9129-51d195b940cc)
 
 --------------
 
