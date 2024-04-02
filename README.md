@@ -14,3 +14,9 @@ temperature, ICON, COSMO, HNMS
 #### Citation (APA):
  Vagenas, G. & Gofa, F. (2024). Visualization of ME & RMSE on climate data series. Hellenic National Meteorological Agency.
 
+## Visualization Output
+
+#### Figure 1. Mean error | Region: ComA2 | Model: ICON-LAM | Varibles: FF (m/s) - N (oct) - T2M (K) - TD2M (K)
+
+![Fig1](https://github.com/Vagenas7119/Climate-Data-Analysis/assets/51241773/7a0d6e13-67c1-4be4-a91c-3fa1d8b28d6a)
+
